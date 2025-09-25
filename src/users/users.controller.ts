@@ -19,19 +19,18 @@ import { UpdateUserDto } from "./dto/UpdateUser.dto";
 export class UsersController {
     constructor(private userService: UsersService){}
     
-    // users/ (POST)
     @Post()
     @UsePipes(new ValidationPipe())
     createUser(@Body() createUserDto: CreateUserDto) {
         console.log(createUserDto)
         return this.userService.createUser(createUserDto)
     }
-    // users/ (GET)
+    
     @Get()
     getUsers(){
         return this.userService.getUsers();
     }
-    // users/:id (GET)
+    
     @Get(':id')
     async getUserById(@Param('id') id: string){
         const isValid = mongoose.Types.ObjectId.isValid(id);
@@ -41,7 +40,7 @@ export class UsersController {
         return findUser;
         // return this.userService.getUserById(id);
     }
-    // users/:id (PATCH)
+    
     @Patch(':id')
     @UsePipes(new ValidationPipe())
     async updateUserById(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto){
@@ -51,7 +50,7 @@ export class UsersController {
         if (!updatedUser) throw new HttpException('User not found', 404);
         return updatedUser;
     }
-    // users/:id (DELETE)
+    
     @Delete(':id')
     async deleteUser(@Param('id') id: string){
         const isValid = mongoose.Types.ObjectId.isValid(id);
